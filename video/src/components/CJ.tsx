@@ -42,24 +42,44 @@ export const CJ: React.FC<{
   echoes?: number;
   tint?: Tint;
   rim?: number;
-}> = ({ x, heightFrac, pulse, phase, bass, kick, enter = 1, glitch = false, echoes = 0, tint = "none", rim = 1 }) => {
+  topFrac?: number; // if set, top edge of the photo (fraction of height); otherwise bottom-anchored
+  anchorX?: number; // which point of the photo (fraction of its width) sits at `x`
+  driftX?: number; // px of lateral camera drift
+  push?: number; // 0..1 slow push-in through the shot
+}> = ({
+  x,
+  heightFrac,
+  pulse,
+  phase,
+  bass,
+  kick,
+  enter = 1,
+  glitch = false,
+  echoes = 0,
+  tint = "none",
+  rim = 1,
+  topFrac,
+  anchorX = 0.5,
+  driftX = 0,
+  push = 0,
+}) => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const h = height * heightFrac;
   const w = h * ASPECT;
-  const scale = 1 + pulse * 0.022 + bass * 0.035;
+  const scale = 1 + pulse * 0.022 + bass * 0.035 + push * 0.04;
   const nod = Math.sin(phase * Math.PI * 2) * 0.9;
   const rise = (1 - enter) * h * 0.6;
   const split = (kick * 22 + pulse * 6) * (h / 1000);
 
   const box: React.CSSProperties = {
     position: "absolute",
-    left: width * x - w / 2,
-    top: height - h + rise,
+    left: width * x - w * anchorX + driftX,
+    top: (topFrac === undefined ? height - h : height * topFrac) + rise,
     width: w,
     height: h,
     transform: `scale(${scale}) rotate(${nod}deg)`,
-    transformOrigin: "50% 100%",
+    transformOrigin: topFrac === undefined ? "50% 100%" : `${anchorX * 100}% 30%`,
     opacity: enter,
   };
 
@@ -102,7 +122,8 @@ export const CJ: React.FC<{
         {glitch &&
           kick > 0.45 &&
           Array.from({ length: 6 }).map((_, i) => {
-            const top = random(`gt-${frame}-${i}`) * 90;
+            // slices stay below the face (chest/arms) so CJ's face, cap logo and expression are never altered
+            const top = 50 + random(`gt-${frame}-${i}`) * 42;
             const hh = 2 + random(`gh-${frame}-${i}`) * 7;
             const dx = (random(`gx-${frame}-${i}`) - 0.5) * 70 * kick * (h / 1000);
             return (
@@ -116,7 +137,7 @@ export const CJ: React.FC<{
                   height: "100%",
                   clipPath: `inset(${top}% 0 ${100 - top - hh}% 0)`,
                   transform: `translateX(${dx}px)`,
-                  filter: i % 2 ? "hue-rotate(-30deg) saturate(2)" : "invert(0.1)",
+                  filter: imgFilter,
                 }}
               />
             );

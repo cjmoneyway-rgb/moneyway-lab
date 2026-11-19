@@ -16,10 +16,13 @@ import { City } from "./components/City";
 import { CJ, Tint } from "./components/CJ";
 import { Crown } from "./components/Crown";
 import { Embers, Flash, Grain, LightBeams, Scanlines, Vignette } from "./components/Effects";
+import { ForegroundDepth } from "./components/Depth";
 import { Equalizer } from "./components/Equalizer";
+import { Performance } from "./components/Performance";
 import { LowerThird, Marquee, SlamWord } from "./components/Typography";
 import { COPY } from "./copy";
 import { ANTON, BEBAS, RED, SILVER } from "./fonts";
+import { clipFor, shotAt } from "./shots";
 import { barFrame, beatInfo, DURATION_FRAMES, kickHit, SECTIONS, sectionAt, SectionName } from "./timing";
 
 const AUDIO = staticFile("soundtrack.wav");
@@ -38,6 +41,13 @@ const CJ_H: Record<SectionName, { h: number; v: number }> = {
   verse2: { h: 0.97, v: 0.6 },
   outro: { h: 0.64, v: 0.5 },
 };
+
+// Close framing on the portrait: cap-to-chest fills the frame (≈1.4× the source pixels at 1080p).
+const CLOSE = {
+  h: { heightFrac: 1.77, topFrac: 0.05, anchorX: 0.47 },
+  v: { heightFrac: 1.0, topFrac: 0.3, anchorX: 0.47 },
+};
+const CLOSE_X: Record<SectionName, number> = { intro: 0.5, verse1: 0.72, hook: 0.66, verse2: 0.26, outro: 0.5 };
 
 export const MusicVideo: React.FC = () => {
   const frame = useCurrentFrame();
@@ -70,6 +80,17 @@ export const MusicVideo: React.FC = () => {
   const cjH = interpolate(tMove, [0, 1], [CJ_H[prev][orient], CJ_H[section.name][orient]]);
   const cjEnter = spring({ frame: frame - barFrame(1), fps, config: { damping: 16, stiffness: 90 } });
 
+  // ---- shot / framing ----------------------------------------------------
+  const shot = shotAt(frame);
+  const shotLen = shot.to - shot.from;
+  const shotLocal = frame - shot.from;
+  const push = Math.min(1, shotLocal / shotLen);
+  const drift = (shot.index % 2 ? 1 : -1) * (push - 0.5) * 70 * u;
+  const close = shot.framing === "close" && section.name !== "intro";
+  const perf = clipFor(shot, frame);
+  const cutPunch = shot.from > 0 && shotLocal < 5 && shot.from !== section.from ? 1 - shotLocal / 5 : 0;
+  const closeCfg = CLOSE[orient];
+
   let tint: Tint = "none";
   if (section.name === "verse2") tint = (["none", "mono", "red", "none"] as Tint[])[Math.min(3, Math.floor(local / (barFrame(11) - barFrame(10))))];
   if (section.name === "hook" && beatInBar === 3) tint = "red";
@@ -79,7 +100,7 @@ export const MusicVideo: React.FC = () => {
   const shakeAmt = (isHook ? 14 : 4) * u * (pulse * 0.6 + kick);
   const camX = (random(`cx-${frame}`) - 0.5) * shakeAmt;
   const camY = (random(`cy-${frame}`) - 0.5) * shakeAmt;
-  const camZoom = 1 + (isHook ? pulse * 0.025 : 0) + interpolate(local, [0, section.to - section.from], [0, 0.04]);
+  const camZoom = 1 + (isHook ? pulse * 0.025 : 0) + cutPunch * 0.03;
 
   // section-change flash
   const flash = SECTIONS.slice(1).reduce((acc, s) => {
@@ -111,7 +132,8 @@ export const MusicVideo: React.FC = () => {
       <Audio src={AUDIO} />
 
       <AbsoluteFill style={{ transform: `translate(${camX}px, ${camY}px) scale(${camZoom})` }}>
-        {/* ================= BACKGROUNDS ================= */}
+        {/* ================= BACKGROUNDS (parallax + rack focus on close shots) ================= */}
+        <AbsoluteFill style={{ transform: `translateX(${-drift * 0.5}px) scale(${1.06 + push * 0.02})`, filter: close ? `blur(${5 * u}px)` : undefined }}>
         {(section.name === "intro" || section.name === "verse1" || section.name === "outro") && (
           <City
             bass={bass}
@@ -126,6 +148,7 @@ export const MusicVideo: React.FC = () => {
           </>
         )}
         {section.name === "verse2" && <BrickWall bass={bass} startFrame={section.from} />}
+        </AbsoluteFill>
 
         {/* giant outline name behind CJ in the intro */}
         {section.name === "intro" && frame >= barFrame(1) && (
@@ -173,18 +196,46 @@ export const MusicVideo: React.FC = () => {
         {section.name === "outro" && <LightBeams intensity={0.55} pulse={pulse} />}
 
         {/* ================= CJ ================= */}
-        {frame >= barFrame(1) - 2 && (
-          <CJ
-            x={cjX}
-            heightFrac={cjH}
+        {perf ? (
+          <Performance
+            clip={perf.clip}
+            framing={shot.framing}
+            syncFrames={Math.round(perf.clip.syncOffsetSec * fps)}
+            push={push}
+            drift={drift}
             pulse={pulse}
-            phase={phase}
-            bass={bass}
-            kick={kick}
-            enter={section.name === "intro" ? cjEnter : 1}
-            glitch={section.name !== "intro" && section.name !== "outro"}
-            echoes={isHook ? 3 : 0}
-            tint={tint}
+          />
+        ) : (
+          frame >= barFrame(1) - 2 && (
+            <CJ
+              x={close ? CLOSE_X[section.name] * (vertical ? 0 : 1) + (vertical ? 0.5 : 0) : cjX}
+              heightFrac={close ? (section.name === "outro" && !vertical ? 1.0 : closeCfg.heightFrac) : cjH}
+              topFrac={close ? (section.name === "outro" && !vertical ? 0.42 : closeCfg.topFrac) : undefined}
+              anchorX={close ? closeCfg.anchorX : 0.5}
+              driftX={drift}
+              push={push}
+              pulse={pulse}
+              phase={phase}
+              bass={bass}
+              kick={kick}
+              enter={section.name === "intro" ? cjEnter : 1}
+              glitch={section.name !== "intro" && section.name !== "outro"}
+              echoes={isHook && !close ? 3 : 0}
+              tint={tint}
+            />
+          )
+        )}
+
+        {/* foreground depth layer + text scrim on close shots */}
+        {frame >= barFrame(1) && <ForegroundDepth drift={drift} close={close} opacity={section.name === "intro" ? cjEnter : 1} />}
+        {close && !vertical && (section.name === "verse1" || section.name === "verse2") && (
+          <AbsoluteFill
+            style={{
+              background:
+                section.name === "verse1"
+                  ? "linear-gradient(90deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 62%)"
+                  : "linear-gradient(270deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 62%)",
+            }}
           />
         )}
 
@@ -217,11 +268,18 @@ export const MusicVideo: React.FC = () => {
           ))}
 
         {isHook && (
-          <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-end", paddingBottom: height * (vertical ? 0.2 : 0.17) }}>
+          <AbsoluteFill
+            style={{
+              alignItems: close && !vertical ? "flex-start" : "center",
+              justifyContent: close && !vertical ? "center" : "flex-end",
+              paddingLeft: close && !vertical ? width * 0.04 : 0,
+              paddingBottom: close && !vertical ? 0 : height * (vertical ? 0.2 : 0.17),
+            }}
+          >
             <div
               style={{
                 fontFamily: ANTON,
-                fontSize: (vertical ? 190 : 230) * u,
+                fontSize: (vertical ? 190 : close ? 190 : 230) * u,
                 lineHeight: 1,
                 color: "#fff",
                 transform: `scale(${1 + pulse * 0.12}) rotate(${beatInBar % 2 ? 2 : -2}deg)`,
@@ -270,7 +328,7 @@ export const MusicVideo: React.FC = () => {
       )}
 
       {/* ================= FINISHING ================= */}
-      <Flash amount={flash * 0.9 + strobe} />
+      <Flash amount={flash * 0.9 + strobe + cutPunch * 0.25} />
       <Flash amount={kick * 0.08} color={RED} />
       <Scanlines opacity={0.1} />
       <Vignette strength={0.8} />

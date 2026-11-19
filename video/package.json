@@ -4,9 +4,11 @@
   "description": "CJ x Moneyway urban music video built with Remotion",
   "scripts": {
     "studio": "remotion studio src/index.ts",
-    "render": "remotion render src/index.ts CJMoneyway out/cj-moneyway-16x9.mp4",
+    "render": "remotion render src/index.ts CJMoneyway out/cj-moneyway-master-1920x1080.mp4",
     "render:vertical": "remotion render src/index.ts CJMoneywayVertical out/cj-moneyway-9x16.mp4",
-    "still": "remotion still src/index.ts CJMoneyway out/still.png"
+    "still": "remotion still src/index.ts CJMoneyway out/still.png",
+    "scan-footage": "node scripts/scan-footage.mjs",
+    "verify": "python3 scripts/verify_master.py out/cj-moneyway-master-1920x1080.mp4 public/soundtrack.wav"
   },
   "keywords": [],
   "author": "",
