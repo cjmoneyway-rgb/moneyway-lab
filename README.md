@@ -2,6 +2,20 @@
 
 Official Moneyway Lab™ platform for practical AI education, workshops, courses, prompt resources, enterprise implementation, and innovation research.
 
+A CJ Moneyway Media brand, alongside The CJ Moneyway Show, the book *Both Eyes Open and Both Eyes Shut*, and CJ Moneyway AI music.
+
+## Map
+
+| Folder | Purpose |
+|---|---|
+| [`CLAUDE.md`](CLAUDE.md) | Lab memory and inbox routing rules. Claude reads it every session. |
+| [`inbox/`](inbox/) | Drop anything here, then say "Process the inbox." |
+| [`brand/`](brand/) | Brand, voice, audience, offer, story, and `facts.md` (single source of truth) |
+| [`masterclass/`](masterclass/) | Teaching modules. First up: [AI Operator 101](masterclass/ai-operator-101/) |
+| [`products/`](products/) | Book, podcast, music, workbooks, workshops |
+| [`templates/`](templates/) | CLAUDE.md starter, goal prompt, SOP |
+| [`video/`](video/) | Moneyway Video Lab |
+
 ## Moneyway Video Lab
 
 The existing [`video/`](video/) project is the Moneyway Video Lab: an internal AI-assisted video creation workstream within Moneyway Lab™, not a separate application, repository, or department.
