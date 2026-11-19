@@ -25,7 +25,7 @@ ok("Resolution 1920×1080", (v["width"], v["height"]) == (1920, 1080), f'{v["wid
 ok("Square pixels", v.get("sample_aspect_ratio", "1:1") in ("1:1", "0:1", None), v.get("sample_aspect_ratio", "1:1"))
 ok("Codec H.264, yuv420p", v["codec_name"] == "h264" and v["pix_fmt"] == "yuv420p", f'{v["codec_name"]} {v["pix_fmt"]} ({v.get("profile","")})')
 ok("Frame rate 30 fps", abs(fps - 30) < 1e-6, f"{fps:g} fps")
-nb = int(subprocess.check_output(["ffprobe", "-v", "error", "-count_packets", "-select_streams", "v:0", "-show_entries", "stream=nb_read_packets", "-of", "csv=p=0", video]).strip())
+nb = int(subprocess.check_output(["ffprobe", "-v", "error", "-count_packets", "-select_streams", "v:0", "-show_entries", "stream=nb_read_packets", "-of", "csv=p=0", video]).decode().strip().strip(","))
 analysis = json.load(open(root / "src/analysis.json"))
 expected_frames = int(np.ceil(analysis["duration"] * 30))
 ok("Frame count", nb == expected_frames, f"{nb} frames (expected {expected_frames})")
@@ -71,7 +71,7 @@ for cf in cut_frames:
 landed = sum(1 for _, _, x in hits if x > 2.0)
 ok("Cuts land on the beat", landed >= 0.8 * len(hits), f"{landed}/{len(hits)} planned cuts show a visual change ≥2× median at the beat frame (±1 frame)")
 blacks = int((frames.mean(axis=(1, 2)) < 4).sum())
-ok("No unintended black frames", blacks <= 20, f"{blacks} near-black frames (end fade-out only)")
+ok("No unintended black frames", blacks <= 20, f"{blacks} near-black frames (only the closing fade-out is allowed)")
 
 passed = all(c[1] for c in checks)
 lines = [f"# Master verification — {pathlib.Path(video).name}", "", f"**Result: {'PASS' if passed else 'FAIL'}**", "", "| Check | Result | Detail |", "|---|---|---|"]
