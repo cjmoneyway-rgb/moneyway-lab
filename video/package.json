@@ -1,0 +1,25 @@
+{
+  "name": "cj-moneyway-video",
+  "version": "1.0.0",
+  "description": "CJ x Moneyway urban music video built with Remotion",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts CJMoneyway out/cj-moneyway-16x9.mp4",
+    "render:vertical": "remotion render src/index.ts CJMoneywayVertical out/cj-moneyway-9x16.mp4",
+    "still": "remotion still src/index.ts CJMoneyway out/still.png"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@remotion/cli": "^4.0.545",
+    "@remotion/media-utils": "^4.0.545",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.545"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.31",
+    "typescript": "^5.9.3"
+  }
+}
