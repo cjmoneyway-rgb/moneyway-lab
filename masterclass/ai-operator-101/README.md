@@ -1,32 +1,44 @@
 # AI Operator 101: Four Moves to Make AI Work for You
-**Moneyway Lab™ masterclass · CJ Moneyway Media**
+**Moneyway Lab™ masterclass · CJ Moneyway Media™**
 
-> Crown on. Stay ready. Most people *talk* to AI. Operators **run** it.
+**Status: complete draft for executive review. Not approved for sale, publication, or scheduling.**
 
 Most people open an AI app, type a question, get something generic, and start over tomorrow.
-This module teaches four moves that turn AI from a chatbot into a teammate that knows your
-business, plans before it acts, and delivers what you asked for.
+This module teaches four moves that turn AI into a teammate that knows your business, plans before it acts,
+and delivers what you asked for, with a human approving anything that matters.
 
 ## The four moves
-| # | Move | One-line takeaway | Lesson |
+| # | Move | Takeaway | Lesson |
 |---|---|---|---|
-| **#1** | Know your instruction type | Give a recipe (SOP) or a destination (end goal). Know which one you're giving. | [01](01-sop-vs-end-goal.md) |
-| **#2** | Give it a memory of who you are | One CLAUDE.md file loads your brand into every session. | [02](02-give-it-a-memory.md) |
-| **#3** | Make it plan before it builds | Ten minutes of planning saves an hour of redoing. | [03](03-plan-before-it-builds.md) |
-| **#4** | Brief it with a goal prompt | Goal + context + limits + "done looks like." | [04](04-goal-prompt.md) |
+| **#1** | Know your instruction type | Give fixed steps (SOP) or a defined outcome (end goal), and mark where a human approves. | [01-sop-vs-end-goal.md](01-sop-vs-end-goal.md) |
+| **#2** | Give AI a memory | A short CLAUDE.md plus organized files load your business into each Claude Code session. | [02-give-it-a-memory.md](02-give-it-a-memory.md) |
+| **#3** | Plan before it builds | Plan → Build → Review → Test, with oversight matched to risk. | [03-plan-before-it-builds.md](03-plan-before-it-builds.md) |
+| **#4** | Brief it with a goal prompt | GOAL · CONTEXT · LIMITS · DONE LOOKS LIKE (Moneyway Lab™ original). | [04-goal-prompt.md](04-goal-prompt.md) |
 
-## What's in this folder
-| File | For | Use |
+Every lesson has the same parts: learning objective → explanation → worked example → exercise → expected output → completion check.
+
+## Files
+| File | Audience | Purpose |
 |---|---|---|
-| `01`–`04` lesson files | Students | Read or teach in order |
-| [`workbook.md`](workbook.md) | Students | Fill-in exercises. This is the sellable workbook draft. |
-| [`facilitator-guide.md`](facilitator-guide.md) | CJ / instructors | 90-minute live workshop run sheet |
-| `../../templates/` | Students | Starter CLAUDE.md, goal prompt, SOP |
+| Lessons `01`–`04` | Students | Teach in order |
+| [workbook.md](workbook.md) | Students | Exercises, completed examples, templates, final assignment, self-assessment |
+| [facilitator-guide.md](facilitator-guide.md) | Instructors | 90-minute live workshop plan |
+| [qa-report.md](qa-report.md) | CJ / reviewers | What was reviewed, changed, tested, and left open |
+| [decision-register.md](decision-register.md) | CJ | Every item that needs executive approval |
+| [`../../templates/`](../../templates/) | Students | CLAUDE.md starter, SOP worksheet, goal prompt |
+| [`../sources/claude-code-four-moves.md`](../sources/claude-code-four-moves.md) | Reviewers | Outside-source attribution |
 
-## Who it's for
-See `brand/audience.md`. No coding needed. If you can write a text message, you can do this.
+## Examples and data
+All worked examples use a **fictional** business, *Brick & Bloom Candle Co.* No real customer data is used.
+Dollar amounts in the examples are illustrative, not Moneyway prices. Real prices: `brand/facts.md` (pending approval).
 
-## Status
-**Draft v1.** Built from notes on an outside Claude Code tutorial (credited in
-`../sources/claude-code-four-moves.md`), rewritten in the Moneyway voice with Moneyway examples.
-CJ to review before sale. Prices: see `brand/facts.md`.
+## Platform accuracy
+Claude Code details (CLAUDE.md loading, memory types, permission modes) were checked against the Claude Code
+documentation in November 2026. Re-check before each delivery; see `qa-report.md`.
+
+## Build the PDF (optional)
+```bash
+python3 scripts/check_docs.py                 # validation checks
+bash scripts/build_workbook_pdf.sh            # → masterclass/ai-operator-101/dist/workbook.pdf (git-ignored)
+```
+Requires `pandoc` and Node `playwright` with Chromium.

@@ -1,42 +1,46 @@
-# Brand: CJ Moneyway Media / Moneyway Lab™
+# Brand: CJ Moneyway Media™ / Moneyway Lab™
 
 Read before designing anything: slides, flyers, workbook covers, thumbnails, social posts.
 
-## Names
-- **CJ Moneyway Media**: the umbrella brand (show, book, music, lab).
-- **Moneyway Lab™**: practical AI education. Always written with ™ on first use.
-- **The CJ Moneyway Show**: the podcast.
-- Signature lockup: **CJ × MONEYWAY**
+> **Approval status matters.** Items marked **APPROVED** come from CJ's executive directive (2026-11-22).
+> Items marked **DRAFT** came from the Moneyway Video Lab prototype or earlier drafts. They are working
+> defaults, not approved enterprise standards. See `masterclass/ai-operator-101/decision-register.md`.
 
-## Colors
-Taken from the existing Moneyway Video Lab build (`video/src/fonts.ts`).
+## Protected names and marks (APPROVED)
+Always use the mark exactly as written.
+
+| Mark | Use |
+|---|---|
+| **CJ Moneyway Media™** | Umbrella brand |
+| **Moneyway Lab™** | Practical AI education and innovation |
+| **The CJ Moneyway Show™** | Podcast |
+| **Built For Purpose™** | Brand principle |
+| **Faith • Vision • Legacy™** | Brand principle |
+| **Build It Brick by Brick™** | Brand principle |
+| **Legacy Over Likes™** | Brand principle |
+
+Book title (not a mark): *Both Eyes Open and Both Eyes Shut*, by CJ Moneyway.
+Lockup used in the video prototype: **CJ × MONEYWAY** (DRAFT: not confirmed as an official lockup).
+
+## Colors (DRAFT)
+From the Moneyway Video Lab prototype (`video/src/fonts.ts`). Not yet approved as enterprise colors.
 
 | Role | Hex | Use |
 |---|---|---|
-| Moneyway Red | `#E10600` | Primary accent, headlines, numbers (#1, #2…), buttons |
-| Deep Red | `#7A0000` | Gradients, shadows, secondary panels |
+| Moneyway Red | `#E10600` | Accent, headlines, lesson numbers |
+| Deep Red | `#7A0000` | Gradients, secondary panels |
 | Black | `#000000` / `#120000` | Backgrounds |
-| Silver | `#D9D9DE` | Body text on dark, dividers |
-| Gold | `#FFB800` | Sparingly: crowns, "premium" callouts |
+| Silver | `#D9D9DE` | Text on dark, dividers |
+| Gold | `#FFB800` | Sparingly: premium callouts |
 
-Default look: **dark background, red accent, white or silver text.** Bold and high-contrast.
+## Type (DRAFT)
+Anton (headlines), Bebas Neue (subheads and labels), Permanent Marker (one-word accents only).
+All three are SIL Open Font License files in `video/public/fonts/`. Not yet approved as enterprise fonts.
 
-## Type
-| Font | Use |
-|---|---|
-| Anton | Big headlines, lesson numbers |
-| Bebas Neue | Subheads, labels, all-caps straps |
-| Permanent Marker | Graffiti accents only: one word, never paragraphs |
+## Visual motifs (DRAFT)
+Crown, city skyline and brick wall, big numbered steps (#1–#4), flow diagrams joined by red lines.
 
-All three are SIL Open Font License and already in `video/public/fonts/`.
-
-## Visual motifs
-- The crown 👑 (ownership and leadership)
-- City skyline and brick wall ("from the block to the boardroom")
-- Numbered steps in big red type: **#1, #2, #3**
-- Flow diagrams: boxes joined by red lines (the way we teach systems)
-
-## Don'ts
-- No stock "robot brain" AI imagery.
-- No generated or altered likeness of CJ or any real person. Use approved photos only.
-- No more than one accent color per slide besides red.
+## Imagery rules (APPROVED)
+- Use authentic, approved photographs of CJ and any identifiable real person.
+- Never create a substitute AI likeness of CJ or any real person.
+- No stock "robot brain" AI imagery. *(DRAFT preference)*

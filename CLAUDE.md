@@ -1,11 +1,11 @@
-# CLAUDE.md — Moneyway Lab™ / CJ Moneyway Media
+# CLAUDE.md — Moneyway Lab™ / CJ Moneyway Media™
 
-This file is the lab's memory. Claude reads it at the start of every session.
-Keep it short. It points to other files; it does not repeat them.
+Project instructions for this repository. Claude Code loads this file when a session starts in this repo.
+It is guidance, not enforcement. Keep it short (under ~200 lines). It points to other files; it does not repeat them.
 
 ## Who this is
 - **CJ Moneyway**: author, host, AI music creator, founder of Moneyway Lab™.
-- **CJ Moneyway Media**: the brand umbrella. Moneyway Lab™ is its education arm.
+- **CJ Moneyway Media™**: the brand umbrella. Moneyway Lab™ is its education arm. The podcast is The CJ Moneyway Show™.
 - We don't start from zero. We turn what already exists (the book, the podcast,
   the music) into digital products: **workbooks first, then workshops**.
 
@@ -16,13 +16,14 @@ Keep it short. It points to other files; it does not repeat them.
 | `brand/` | Who we are and how we sound. Read before creating anything public. |
 | `brand/facts.md` | **Single source of truth** for prices, links, titles, dates. |
 | `products/` | One folder per product line: book, podcast, music, workbooks, workshops. |
-| `masterclass/` | Finished Moneyway Lab™ teaching modules (lessons, workbook, facilitator guide). |
+| `masterclass/` | Moneyway Lab™ teaching modules (lessons, workbook, facilitator guide). Drafts until CJ approves. |
 | `masterclass/sources/` | Notes on outside material a module was built from, with credit. |
 | `templates/` | Reusable blanks: CLAUDE.md starter, goal prompt, SOP. |
+| `scripts/` | Doc validation and workbook PDF build. |
 | `video/` | Moneyway Video Lab (Remotion). Has its own README. |
 
-## Inbox routing (do this whenever something new shows up)
-When the user drops material into `inbox/` or pastes or uploads it in chat:
+## Inbox routing (manual: when the user asks, e.g. "process the inbox", or shares material in chat)
+Nothing is routed automatically. When asked:
 1. **Identify it**: lesson material, brand asset, product content, fact (price/link/date), or idea.
 2. **Route it** using the table below. Rewrite outside material in our own words;
    never copy someone else's slides, scripts, or likeness into a product.
@@ -44,7 +45,7 @@ When the user drops material into `inbox/` or pastes or uploads it in chat:
 
 ## Always read
 - `brand/tone-of-voice.md` before writing anything in CJ's name.
-- `brand/brand.md` before designing anything.
+- `brand/brand.md` before designing anything. Respect its APPROVED vs DRAFT labels; never present DRAFT items as approved standards.
 
 ## Read only when needed
 - `brand/audience.md`: who we're talking to (sales pages, workshop invites).
@@ -60,3 +61,6 @@ When the user drops material into `inbox/` or pastes or uploads it in chat:
 - Never invent book content, quotes, testimonials, sales numbers, or results. Use `TODO (CJ):` and ask.
 - Facts live in one place (`brand/facts.md`). Reference them; don't copy them around.
 - AI output is a draft until CJ reviews it.
+- Do not publish, launch, set prices, announce dates, contact customers, or deploy anything without explicit CJ approval.
+- Open approvals are tracked in `masterclass/ai-operator-101/decision-register.md`.
+- Run `python3 scripts/check_docs.py` after editing docs.
